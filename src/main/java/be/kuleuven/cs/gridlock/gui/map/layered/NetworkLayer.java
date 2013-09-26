@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package be.kuleuven.cs.gridlock.gui.map.layered;
 
 import be.kuleuven.cs.gridlock.geo.coordinates.Coordinates;
@@ -10,8 +13,10 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
- *
+ * The Class NetworkLayer.
+ * 
  * @author Rutger Claes <rutger.claes@cs.kuleuven.be>
  */
 public class NetworkLayer implements MapLayer {
@@ -24,15 +29,32 @@ public class NetworkLayer implements MapLayer {
 
     private boolean detailed = true;
 
+    /**
+     * Instantiates a new network layer.
+     * 
+     * @param graph
+     *          the graph
+     * @param detailed
+     *          the detailed
+     */
     public NetworkLayer( Graph<NodeReference, LinkReference> graph, boolean detailed ) {
         this.graph = graph;
         this.detailed = detailed;
     }
 
+    /**
+     * Instantiates a new network layer.
+     * 
+     * @param graph
+     *          the graph
+     */
     public NetworkLayer( Graph<NodeReference, LinkReference> graph ) {
         this( graph, true );
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.layered.MapLayer#paintLayer(be.kuleuven.cs.gridlock.gui.map.PixelMapper, java.awt.Graphics2D)
+     */
     @Override
     public void paintLayer( PixelMapper mapper, Graphics2D graphics) {
         for( LinkReference edge : graph.getEdges() ) {
@@ -57,6 +79,15 @@ public class NetworkLayer implements MapLayer {
         graphics.drawPolyline( points[0], points[1], points[0].length );
     }
 
+    /**
+     * Map coordinates.
+     * 
+     * @param coordinates
+     *          the coordinates
+     * @param mapper
+     *          the mapper
+     * @return the int[][]
+     */
     protected int[][] mapCoordinates( List<Coordinates> coordinates, PixelMapper mapper ) {
         int[][] points = new int[2][coordinates.size()];
 
@@ -77,18 +108,38 @@ public class NetworkLayer implements MapLayer {
         return this.stroke;
     }
     
+    /**
+     * Gets the color.
+     * 
+     * @return the color
+     */
     protected Color getColor() {
         return color;
     }
 
+    /**
+     * Checks if is detailed.
+     * 
+     * @return true, if is detailed
+     */
     protected boolean isDetailed() {
         return detailed;
     }
 
+    /**
+     * Gets the graph.
+     * 
+     * @return the graph
+     */
     protected Graph<NodeReference, LinkReference> getGraph() {
         return graph;
     }
 
+    /**
+     * Gets the stroke.
+     * 
+     * @return the stroke
+     */
     protected Stroke getStroke() {
         return stroke;
     }

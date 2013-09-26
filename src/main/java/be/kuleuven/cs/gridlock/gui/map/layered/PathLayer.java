@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package be.kuleuven.cs.gridlock.gui.map.layered;
 
 import be.kuleuven.cs.gridlock.geo.coordinates.Coordinates;
@@ -21,8 +24,10 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
+// TODO: Auto-generated Javadoc
 /**
- *
+ * The Class PathLayer.
+ * 
  * @author Rutger Claes <rutger.claes@cs.kuleuven.be>
  */
 public class PathLayer implements MapLayer {
@@ -31,16 +36,29 @@ public class PathLayer implements MapLayer {
 
     private final List<List<Coordinates>> coordinates;
 
+    /** The context. */
     protected final SimulationContext context;
 
     private final Random random = new Random();
 
+    /**
+     * Instantiates a new path layer.
+     * 
+     * @param context
+     *          the context
+     */
     public PathLayer( SimulationContext context ) {
         this.context = context;
         this.coordinates = new LinkedList<List<Coordinates>>();
         this.queue = new LinkedList<Path>();
     }
 
+    /**
+     * Adds the path.
+     * 
+     * @param path
+     *          the path
+     */
     public void addPath( Path path ) {
         synchronized( this.coordinates ) {
             this.queue.add( path );
@@ -60,6 +78,9 @@ public class PathLayer implements MapLayer {
         return coordinateList;
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.layered.MapLayer#paintLayer(be.kuleuven.cs.gridlock.gui.map.PixelMapper, java.awt.Graphics2D)
+     */
     @Override
     public void paintLayer( PixelMapper mapper, Graphics2D graphics) {
         synchronized( this.coordinates ) {
@@ -88,16 +109,30 @@ public class PathLayer implements MapLayer {
         graphics.drawPolyline( points[0], points[1], path.size() );
     }
 
+    /**
+     * The Class VehiclePathLayer.
+     */
     public static class VehiclePathLayer extends PathLayer implements EventListener, EventFilter {
 
         private final RoutingService routing;
 
+        /**
+         * Instantiates a new vehicle path layer.
+         * 
+         * @param context
+         *          the context
+         * @param routing
+         *          the routing
+         */
         public VehiclePathLayer( SimulationContext context, RoutingService routing ) {
             super( context );
             this.routing = routing;
             context.getEventController().registerListener( this, this );
         }
 
+        /* (non-Javadoc)
+         * @see be.kuleuven.cs.gridlock.simulation.events.EventListener#notifyOf(be.kuleuven.cs.gridlock.simulation.events.Event)
+         */
         @Override
         public void notifyOf( Event event ) {
             NodeReference origin = event.getAttribute( "origin", NodeReference.class );
@@ -109,6 +144,9 @@ public class PathLayer implements MapLayer {
             }
         }
 
+        /* (non-Javadoc)
+         * @see be.kuleuven.cs.gridlock.simulation.events.EventFilter#pass(be.kuleuven.cs.gridlock.simulation.events.Event)
+         */
         @Override
         public boolean pass( Event event ) {
             return event.getType().equals( "vehicle:creation" );

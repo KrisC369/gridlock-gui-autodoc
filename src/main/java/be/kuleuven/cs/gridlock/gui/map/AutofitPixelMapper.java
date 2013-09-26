@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package be.kuleuven.cs.gridlock.gui.map;
 
 import be.kuleuven.cs.gridlock.gui.map.projection.Projection;
@@ -8,12 +11,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+// TODO: Auto-generated Javadoc
 /**
- *
+ * The Class AutofitPixelMapper.
+ * 
  * @author Rutger Claes <rutger.claes@cs.kuleuven.be>
  */
 public class AutofitPixelMapper implements PixelMapper {
 
+    /** The Constant OFFSET. */
     public static final int OFFSET = 10;
 
     private double minX = Double.POSITIVE_INFINITY;
@@ -31,11 +37,20 @@ public class AutofitPixelMapper implements PixelMapper {
 
     private final Set<PixelMapperObserver> observers;
 
+    /**
+     * Instantiates a new autofit pixel mapper.
+     * 
+     * @param projection
+     *          the projection
+     */
     public AutofitPixelMapper( Projection projection ) {
         this.projection = projection;
         this.observers = new HashSet<PixelMapperObserver>();
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.PixelMapper#update(be.kuleuven.cs.gridlock.geo.coordinates.Coordinates)
+     */
     @Override
     public void update( Coordinates coordinates ) {
         update( this.projection.map( coordinates ) );
@@ -65,6 +80,9 @@ public class AutofitPixelMapper implements PixelMapper {
         }
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.PixelMapper#update(java.awt.Dimension)
+     */
     @Override
     public void update( Dimension dimension ) {
         if( dimension != null ) {
@@ -85,6 +103,9 @@ public class AutofitPixelMapper implements PixelMapper {
         }
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.PixelMapper#mapPoint(java.awt.geom.Point2D)
+     */
     @Override
     public int[] mapPoint( Point2D point ) {
         if( point != null && point.getX() > this.maxX || point.getX() < this.minX ) {
@@ -105,6 +126,9 @@ public class AutofitPixelMapper implements PixelMapper {
         }
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.PixelMapper#mapPoints(java.util.List)
+     */
     @Override
     public int[][] mapPoints( List<Point2D> pointList ) {
         int[][] points = new int[2][ pointList.size() ];
@@ -116,11 +140,17 @@ public class AutofitPixelMapper implements PixelMapper {
         return points;
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.PixelMapper#mapCoordinates(be.kuleuven.cs.gridlock.geo.coordinates.Coordinates)
+     */
     @Override
     public int[] mapCoordinates( Coordinates coordinates ) {
         return this.mapPoint( this.projection.map( coordinates ) );
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.PixelMapper#mapCoordinates(java.util.List)
+     */
     @Override
     public int[][] mapCoordinates( List<Coordinates> coordinates ) {
         int[][] points = new int[2][ coordinates.size() ];
@@ -132,11 +162,17 @@ public class AutofitPixelMapper implements PixelMapper {
         return points;
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.PixelMapper#isReady()
+     */
     @Override
     public boolean isReady() {
         return this.dimensions != null && !Double.isInfinite( this.minX );
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.PixelMapper#addObserver(be.kuleuven.cs.gridlock.gui.map.PixelMapperObserver)
+     */
     @Override
     public void addObserver( PixelMapperObserver observer ) {
         synchronized( this.observers ) {
@@ -144,6 +180,9 @@ public class AutofitPixelMapper implements PixelMapper {
         }
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.PixelMapper#removeObserver(be.kuleuven.cs.gridlock.gui.map.PixelMapperObserver)
+     */
     @Override
     public void removeObserver( PixelMapperObserver observer ) {
         synchronized( this.observers ) {
@@ -159,6 +198,9 @@ public class AutofitPixelMapper implements PixelMapper {
         }
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.PixelMapper#getDimensions()
+     */
     @Override
     public Dimension getDimensions() {
         return this.dimensions;

@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package be.kuleuven.cs.gridlock.gui.map.layered;
 
 import be.kuleuven.cs.gridlock.gui.map.PixelMapper;
@@ -8,7 +11,10 @@ import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class BufferedLayer.
+ * 
  * @author Rutger Claes <rutger.claes@cs.kuleuven.be>
  */
 public class BufferedLayer implements MapLayer, PixelMapperObserver {
@@ -17,15 +23,27 @@ public class BufferedLayer implements MapLayer, PixelMapperObserver {
     private PixelMapper mapper;
     private BufferedImage image;
 
+    /**
+     * Instantiates a new buffered layer.
+     * 
+     * @param delegate
+     *          the delegate
+     */
     protected BufferedLayer( MapLayer delegate ) {
         this.delegate = delegate;
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.PixelMapperObserver#notifyOfChange(be.kuleuven.cs.gridlock.gui.map.PixelMapper)
+     */
     @Override
     public void notifyOfChange( PixelMapper mapper ) {
         this.reset();
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.layered.MapLayer#paintLayer(be.kuleuven.cs.gridlock.gui.map.PixelMapper, java.awt.Graphics2D)
+     */
     @Override
     public void paintLayer( PixelMapper mapper, Graphics2D graphics ) {
         if( this.mapper != mapper ) {
@@ -42,6 +60,9 @@ public class BufferedLayer implements MapLayer, PixelMapperObserver {
         }
     }
 
+    /**
+     * Reset.
+     */
     public void reset() {
         Dimension dimensions = mapper.getDimensions();
         final BufferedImage newImage = new BufferedImage( dimensions.width, dimensions.height, BufferedImage.TYPE_INT_ARGB );
@@ -52,6 +73,13 @@ public class BufferedLayer implements MapLayer, PixelMapperObserver {
         image = newImage;
     }
 
+    /**
+     * Buffer.
+     * 
+     * @param layer
+     *          the layer
+     * @return the buffered layer
+     */
     public static BufferedLayer buffer( MapLayer layer ) {
         if( layer instanceof BufferedLayer ) {
             return (BufferedLayer) layer;

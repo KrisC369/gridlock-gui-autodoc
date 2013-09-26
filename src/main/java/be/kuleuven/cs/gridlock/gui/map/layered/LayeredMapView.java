@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package be.kuleuven.cs.gridlock.gui.map.layered;
 
 import java.awt.EventQueue;
@@ -14,19 +17,35 @@ import be.kuleuven.cs.gridlock.gui.map.projection.MercatorProjection;
 import be.kuleuven.cs.gridlock.gui.map.projection.Projection;
 import be.kuleuven.cs.gridlock.simulation.SimulationComponent;
 
+// TODO: Auto-generated Javadoc
 /**
- *
+ * The Class LayeredMapView.
+ * 
  * @author Rutger Claes <rutger.claes@cs.kuleuven.be>
  */
 public class LayeredMapView extends MapView {
 
     private final List<MapLayer> layers;
 
+    /**
+     * Instantiates a new layered map view.
+     * 
+     * @param projection
+     *          the projection
+     */
     public LayeredMapView( Projection projection ) {
         super( projection );
         this.layers = new LinkedList<MapLayer>();
     }
 
+    /**
+     * Instantiates a new layered map view.
+     * 
+     * @param projection
+     *          the projection
+     * @param layers
+     *          the layers
+     */
     public LayeredMapView( Projection projection, MapLayer... layers ) {
         this( projection );
         for( MapLayer layer : layers ) {
@@ -34,12 +53,21 @@ public class LayeredMapView extends MapView {
         }
     }
 
+    /**
+     * Adds the layer.
+     * 
+     * @param layer
+     *          the layer
+     */
     public void addLayer( MapLayer layer ) {
         synchronized( this.layers ) {
             this.layers.add( layer );
         }
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.MapView#paintMap(java.awt.Graphics)
+     */
     @Override
     protected void paintMap( Graphics g ) {
         Graphics2D graphics = (Graphics2D) g.create();
@@ -54,6 +82,13 @@ public class LayeredMapView extends MapView {
         graphics.dispose();
     }
 
+    /**
+     * Show.
+     * 
+     * @param layers
+     *          the layers
+     * @return the simulation component
+     */
     public static SimulationComponent show( final MapLayer... layers ) {
       final ActiveLayeredMapView view = new ActiveLayeredMapView( new MercatorProjection(), layers );
         //final ActiveLayeredMapView view = new ActiveLayeredMapView( new RectangularProjection(), layers );

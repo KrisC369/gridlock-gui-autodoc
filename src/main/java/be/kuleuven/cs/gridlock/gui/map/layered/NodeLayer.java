@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package be.kuleuven.cs.gridlock.gui.map.layered;
 
 import be.kuleuven.cs.gridlock.geo.coordinates.Coordinates;
@@ -21,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+// TODO: Auto-generated Javadoc
 /**
  * Class for representing a graphical representation of nodes.
  * @author Kristof Coninx <kristof.coninx at student.kuleuven.be>
@@ -31,11 +35,22 @@ public class NodeLayer extends NetworkLayer {
     private Color color = Color.BLUE;
     private int width;
 
+    /**
+     * Instantiates a new node layer.
+     * 
+     * @param context
+     *          the context
+     * @param graph
+     *          the graph
+     */
     public NodeLayer(SimulationContext context, Graph<NodeReference, LinkReference> graph) {
         super(graph, false);
         this.width = 6;
     }
 
+    /* (non-Javadoc)
+     * @see be.kuleuven.cs.gridlock.gui.map.layered.NetworkLayer#paintLayer(be.kuleuven.cs.gridlock.gui.map.PixelMapper, java.awt.Graphics2D)
+     */
     @Override
     public void paintLayer(PixelMapper mapper, Graphics2D graphics) {
         for (NodeReference vertex : getGraph().getNodes()) {
@@ -54,15 +69,31 @@ public class NodeLayer extends NetworkLayer {
         graphics.drawOval(points[0][0] - this.getWidth() / 2, points[1][0] - this.getWidth() / 2, this.getWidth(), this.getWidth());
     }
 
+    /**
+     * Choose color.
+     * 
+     * @param vertex
+     *          the vertex
+     * @return the color
+     */
     protected Color chooseColor(NodeReference vertex) {
         return this.getColor();
     }
 
+    /**
+     * Choose stroke.
+     * 
+     * @param vertex
+     *          the vertex
+     * @return the stroke
+     */
     protected Stroke chooseStroke(NodeReference vertex) {
         return this.getStroke();
     }
 
     /**
+     * Gets the stroke.
+     * 
      * @return the stroke
      */
     @Override
@@ -71,6 +102,8 @@ public class NodeLayer extends NetworkLayer {
     }
 
     /**
+     * Gets the color.
+     * 
      * @return the color
      */
     @Override
@@ -79,16 +112,30 @@ public class NodeLayer extends NetworkLayer {
     }
 
     /**
+     * Gets the width.
+     * 
      * @return the width
      */
     protected int getWidth() {
         return width;
     }
 
+    /**
+     * Do correction.
+     * 
+     * @param mapCoordinates
+     *          the map coordinates
+     * @param vertex
+     *          the vertex
+     * @return the int[][]
+     */
     protected int[][] doCorrection(int[][] mapCoordinates, NodeReference vertex) {
         return mapCoordinates;
     }
 
+    /**
+     * The Class ElectricalNodeLayer.
+     */
     public static class ElectricalNodeLayer extends NodeLayer implements EventListener, EventFilter {
 
         private Map<Long, Integer> nodeLoad;
@@ -99,6 +146,14 @@ public class NodeLayer extends NetworkLayer {
         private int markRed;
         private Stroke smallstroke;
 
+        /**
+         * Instantiates a new electrical node layer.
+         * 
+         * @param context
+         *          the context
+         * @param graph
+         *          the graph
+         */
         public ElectricalNodeLayer(SimulationContext context, Graph<NodeReference, LinkReference> graph) {
             super(context, graph);
             this.nodeLoad = new HashMap<Long, Integer>();
@@ -112,11 +167,17 @@ public class NodeLayer extends NetworkLayer {
             this.parseGraphForStations();
         }
 
+        /* (non-Javadoc)
+         * @see be.kuleuven.cs.gridlock.simulation.events.EventFilter#pass(be.kuleuven.cs.gridlock.simulation.events.Event)
+         */
         @Override
         public boolean pass(Event event) {
             return event.getType().startsWith("infrastructure:chargingstation");
         }
 
+        /* (non-Javadoc)
+         * @see be.kuleuven.cs.gridlock.simulation.events.EventListener#notifyOf(be.kuleuven.cs.gridlock.simulation.events.Event)
+         */
         @Override
         public void notifyOf(Event event) {
             Long stationID = event.getAttribute("station", Long.class);
@@ -127,6 +188,9 @@ public class NodeLayer extends NetworkLayer {
             }
         }
 
+        /* (non-Javadoc)
+         * @see be.kuleuven.cs.gridlock.gui.map.layered.NodeLayer#paintLayer(be.kuleuven.cs.gridlock.gui.map.PixelMapper, java.awt.Graphics2D)
+         */
         @Override
         public void paintLayer(PixelMapper mapper, Graphics2D graphics) {
             super.paintLayer(mapper, graphics);
@@ -135,6 +199,9 @@ public class NodeLayer extends NetworkLayer {
             graphics.drawChars(max.toCharArray(), 0, max.length(), 100, 20);
         }
 
+        /* (non-Javadoc)
+         * @see be.kuleuven.cs.gridlock.gui.map.layered.NodeLayer#chooseColor(be.kuleuven.cs.gridlock.simulation.api.NodeReference)
+         */
         @Override
         protected Color chooseColor(NodeReference vertex) {
             if (!this.stations.contains(vertex.getId())) {
@@ -157,6 +224,9 @@ public class NodeLayer extends NetworkLayer {
             return new Color(0, 0, 0, 200);
         }
 
+        /* (non-Javadoc)
+         * @see be.kuleuven.cs.gridlock.gui.map.layered.NodeLayer#chooseStroke(be.kuleuven.cs.gridlock.simulation.api.NodeReference)
+         */
         @Override
         protected Stroke chooseStroke(NodeReference vertex) {
             if (!this.nodeLoad.containsKey(vertex.getId())) {
@@ -182,6 +252,9 @@ public class NodeLayer extends NetworkLayer {
             }
         }
 
+        /* (non-Javadoc)
+         * @see be.kuleuven.cs.gridlock.gui.map.layered.NodeLayer#doCorrection(int[][], be.kuleuven.cs.gridlock.simulation.api.NodeReference)
+         */
         @Override
         protected int[][] doCorrection(int[][] mapCoordinates, NodeReference vertex) {
             if (this.stations.contains(vertex.getId())) {
@@ -198,12 +271,26 @@ public class NodeLayer extends NetworkLayer {
         }
     }
 
+    /**
+     * The Class LabeledNodeLayer.
+     */
     public static class LabeledNodeLayer extends NodeLayer {
 
+        /**
+         * Instantiates a new labeled node layer.
+         * 
+         * @param context
+         *          the context
+         * @param graph
+         *          the graph
+         */
         public LabeledNodeLayer(SimulationContext context, Graph<NodeReference, LinkReference> graph) {
             super(context, graph);
         }
 
+        /* (non-Javadoc)
+         * @see be.kuleuven.cs.gridlock.gui.map.layered.NodeLayer#paintLayer(be.kuleuven.cs.gridlock.gui.map.PixelMapper, java.awt.Graphics2D)
+         */
         @Override
         public void paintLayer(PixelMapper mapper, Graphics2D graphics) {
             for (NodeReference vertex : getGraph().getNodes()) {
