@@ -8,7 +8,7 @@
     <version>0.0.1</version>
   </parent>
   <groupId>be.kuleuven.cs.gridlock</groupId>
-  <artifactId>gridlock-gui</artifactId>
+  <artifactId>gridlock-gui-autodoc</artifactId>
   <version>0.0.1</version>
   <name>Graphical User Interface</name>
   <url>http://maven.apache.org</url>
